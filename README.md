@@ -6,6 +6,20 @@ A Model Context Protocol (MCP) server for querying Cisco IOS-XE devices using RE
 
 This MCP server provides **read-only** access to Cisco network devices via RESTCONF. It allows you to query device configuration and operational data using YANG data models.
 
+### How This Works as an OpenClaw Skill
+
+`cisco_restconf_mcp.py`, can function as an OpenClaw  **Skill** (the ability to get RESTCONF data from Cisco devices). However, OpenClaw and your Python script are two entirely different programs that need a standard way to communicate.
+
+This is where the **Model Context Protocol (MCP)** comes in:
+
+1. **Your Skill**: The `get_restconf_data()` function that queries Cisco devices
+2. **The Bridge**: FastMCP library wraps your skill in the MCP standard
+3. **OpenClaw Integration**: OpenClaw can now "plug in" to your skill instantly without any custom integration code
+
+By using FastMCP, you've made your Cisco RESTCONF querying capability available as a tool that OpenClaw can discover and use. OpenClaw sees it as just another capability it can invoke, similar to reading files or running commands - but this one talks to your network devices.
+
+**In practice**: When you ask OpenClaw to check interface status on a Cisco device, it can call your `get_restconf_data` tool through MCP, get the results, and present them to you - all without you having to manually run scripts or parse output.
+
 ## Features
 
 - **Read-only operations**: Uses HTTP GET requests only - no configuration changes are made to devices
