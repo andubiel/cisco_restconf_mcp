@@ -1,1 +1,1 @@
-# andubiel-cisco_restconf_mcp
+# cisco_restconf_mcp
